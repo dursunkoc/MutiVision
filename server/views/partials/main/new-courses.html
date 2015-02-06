@@ -1,0 +1,1 @@
+<div class="panel panel-primary"><div class="panel-heading text-center">New Courses</div><div class="panel-body"><div ng-repeat="course in courses|orderBy:'published':true|filter:{featured:false}|limitTo:10" class="row"><div class="col-md-5">{{course.published | date:'dd MMMM, yyyy '}}</div><div class="col-md-7">{{course.name}}</div></div></div></div>

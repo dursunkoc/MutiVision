@@ -1,14 +1,13 @@
-angular.module("app", ["ngResource", "ngRoute"]);
-angular.module("app").config(function($routeProvider, $locationProvider){
-    $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: true
-    });
-    $routeProvider
-        .when("/",{templateUrl:'/partials/main', controller:'mainCtrl'});
+var app = angular.module("app", ["ngResource", "ngRoute"]);
+app.config(
+    function ($routeProvider, $locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: true
+        });
 
-});
-
-angular.module("app").controller("mainCtrl", function($scope){
-   $scope.myVar = 'Hello Angular';
-});
+        $routeProvider
+            .when("/", {templateUrl: '/partials/main/main', controller: 'mvMainCtrl'});
+        
+    }
+);

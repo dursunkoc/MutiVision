@@ -31,3 +31,28 @@ exports.createUser = function (req, res, next) {
         });
     });
 };
+
+exports.updateUser = function (req, res, next) {
+    var userUpdates = req.body;
+    if(userUpdates._id != req.user._id && !req.user.hasRole('admin')){
+        res.status(403);
+        res.end();
+    }
+    req.user.firstName = userUpdates.firstName;
+    req.user.lastName = userUpdates.lastName;
+    req.user.userName = userUpdates.userName;
+    if(userUpdates.password){
+        req.user.salt = encryption.createSalt();
+        req.user.hashed_password = encryption.hashPwd(req.user.salt, userUpdates.password);
+    }
+    req.user.save(function(err){
+        if (err) {
+            if (err.toString().indexOf("E11000") > -1) {
+                err = "User already registered!";
+            }
+            res.status(400);
+            return res.send({reason: err.toString()});
+        }
+        res.send(req.user);
+    });
+};

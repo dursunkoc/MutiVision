@@ -9,6 +9,7 @@ module.exports = function (app) {
     app.get('/api/users', auth.requiresApiLogin ,auth.requiresRole('admin') , users.getUsers);
 
     app.post('/api/users',users.createUser);
+    app.put('/api/users',users.updateUser);
 
     app.get('/partials/*', function (req, res) {
         res.render('partials/' + req.params[0]);

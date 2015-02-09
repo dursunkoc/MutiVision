@@ -13,6 +13,9 @@ var userSchema = mongoose.Schema(
 userSchema.methods = {
     authenticate: function (passwordToMatch) {
         return encryption.hashPwd(this.salt, passwordToMatch) === this.hashed_password;
+    },
+    hasRole: function(role){
+        return roles && roles.indexOf(role)>-1;
     }
 };
 var User = mongoose.model('User', userSchema);
@@ -21,40 +24,40 @@ module.exports.createDefaultUsers = function () {
     User.find({}).exec(function (err, resultSet) {
         if (resultSet.length == 0) {
             var salt = encryption.createSalt();
-            var h_pwd = encryption.hashPwd(salt, "dursunKoc");
+            var h_pwd = encryption.hashPwd(salt, "dursunkoc");
             User.create({
                 firstName: "Dursun",
                 lastName: "KOC",
-                userName: "dursunKoc",
+                userName: "dursunkoc",
                 salt: salt,
                 hashed_password: h_pwd,
                 roles: ['admin']
             });
             salt = encryption.createSalt();
-            h_pwd = encryption.hashPwd(salt, "yaseminKoc");
+            h_pwd = encryption.hashPwd(salt, "yaseminkoc");
             User.create({
                 firstName: "Yasemin",
                 lastName: "KOC",
-                userName: "yaseminKoc",
+                userName: "yaseminkoc",
                 salt: salt,
                 hashed_password: h_pwd,
                 roles: []
             });
             salt = encryption.createSalt();
-            h_pwd = encryption.hashPwd(salt, "elifNisaKoc");
+            h_pwd = encryption.hashPwd(salt, "elifnisakoc");
             User.create({
                 firstName: "Elif Nisa",
                 lastName: "KOC",
-                userName: "elifNisaKoc",
+                userName: "elifnisakoc",
                 salt: salt,
                 hashed_password: h_pwd
             });
             salt = encryption.createSalt();
-            h_pwd = encryption.hashPwd(salt, "asudeKoc");
+            h_pwd = encryption.hashPwd(salt, "asudekoc");
             User.create({
                 firstName: "Asude",
                 lastName: "KOC",
-                userName: "asudeKoc",
+                userName: "asudekoc",
                 salt: salt,
                 hashed_password: h_pwd
             });

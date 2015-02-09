@@ -29,6 +29,21 @@ angular.module('app').factory('mvAuth', function ($http, $q, mvIdentity, mvUser)
             });
             return dfd.promise;
         },
+        updateUser: function(userFormData){
+            var dfd = $q.defer();
+
+            var clone = angular.copy(mvIdentity.currentUser);
+            angular.extend(clone, userFormData);
+
+            clone.$update().then(function () {
+                mvIdentity.currentUser = clone;
+                dfd.resolve();
+            }, function (response) {
+                dfd.reject(response.data.reason);
+            });
+
+            return dfd.promise;
+        },
         signout: function () {
             var dfd = $q.defer();
             $http.post("/logout").then(function () {
@@ -39,8 +54,14 @@ angular.module('app').factory('mvAuth', function ($http, $q, mvIdentity, mvUser)
         }
         ,
         authorizeCurrentUserForRoute: function (role) {
-            //function(mvIdentity, $q){
             if (mvIdentity.isAuthorized('admin')) {
+                return true;
+            } else {
+                return $q.reject(NOT_AUTHORIZED);
+            }
+        },
+        authorizeAuthenticatedUserForRoute : function(){
+            if (mvIdentity.isAuthenticated()) {
                 return true;
             } else {
                 return $q.reject(NOT_AUTHORIZED);
